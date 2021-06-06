@@ -1,0 +1,25 @@
+{
+  "name": "pomodoku",
+  "version": "1.0.0",
+  "description": "Discord bot to study with the pomodoro technique",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LittleHaku/Pomodoku.git"
+  },
+  "keywords": [
+    "Discord"
+  ],
+  "author": "Ivan del Horno",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LittleHaku/Pomodoku/issues"
+  },
+  "homepage": "https://github.com/LittleHaku/Pomodoku#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
+}
