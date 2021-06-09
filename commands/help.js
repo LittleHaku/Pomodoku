@@ -1,7 +1,7 @@
 module.exports = {
-    name: 'help',
-    description: "Ths is a help command",
-    execute(message, args){
-        message.channel.send('I can\'t help you yet');
-    }
+    commands: ['help'],
+    minArgs: 0,
+    callback: (message, arguments, text) => {
+      message.reply('WIP!')
+    },
 }
