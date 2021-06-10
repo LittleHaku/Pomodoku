@@ -6,7 +6,8 @@ module.exports = {
     commands: ['play', 'p'],
     minArgs: 1,
     expectedArgs: ['<Song name>'],
-    async callback(message, arguments, text) {
+    permissions: ['CONNECT', 'SPEAK'],
+    async callback(message, arguments, client) {
         const voice_channel = message.member.voice.channel
         if (!voice_channel) {
             message.reply('You must be in a voice channel to play some music')

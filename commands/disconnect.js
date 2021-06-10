@@ -4,7 +4,7 @@ const path = require('path')
 module.exports = {
     commands: ['dis', 'd', 'disconnect'],
     minArgs: 0,
-    async callback(message, arguments, text) {
+    async callback(message, arguments, client) {
         const {voice} = message.member
 
         if (!voice.channelID) {

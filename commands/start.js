@@ -4,7 +4,7 @@ module.exports = {
     commands: ['start', 's'],
     minArgs: 0,
     maxArgs: 3, //!start 25 5 4 (4 pomodoros of 25 mins study, 5 break)
-    async callback(message, arguments, text) {
+    async callback(message, arguments, client) {
       const {voice} = message.member
 
     //Check they are in a voice channel

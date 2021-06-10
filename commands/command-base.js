@@ -37,7 +37,7 @@ const validatePermissions = (permission) => {
       ]
 
     // Checks the correcteness of the permissions
-      for (const permission of permissions) {
+      for (const permission of validPermissions) {
           if (!validPermissions.includes(permission)) {
               throw new Error(`Unknown permission node "${permission}`)
           }
@@ -112,7 +112,7 @@ module.exports = (client, commandOptions) => {
                 }
 
                 // Handle the custom command code
-                callback(message, arguments, arguments.join(' '))
+                callback(message, arguments, client)
 
                 return
             }
