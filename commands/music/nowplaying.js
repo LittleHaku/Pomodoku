@@ -1,7 +1,7 @@
 Discord = require('discord.js')
 
 module.exports = {
-    commands: ['np', 'nowp', 'nowplaying'],
+    commands: ['nowplaying', 'nowp', 'np'],
     async callback(message, arguments, client) {
         const queue = client.player.getQueue(message)
 
