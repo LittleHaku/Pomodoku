@@ -73,7 +73,7 @@ module.exports = (client, commandOptions) => {
     }
 
     // Listen for messages
-    client.on('message', message => {
+    client.on('message', async message => {
         const { member, content, guild } = message
 
         for (const alias of commands) { //Runs a command if executed
