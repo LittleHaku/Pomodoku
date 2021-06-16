@@ -2,8 +2,7 @@ const { VoiceChannel } = require('discord.js')
 const path = require('path')
 
 module.exports = {
-    commands: 'disconnect',
-    alias: ['d', 'dis'],
+    commands: ['disconnect', 'd', 'dis'],
     minArgs: 0,
     async callback(message, arguments, client) {
         const {voice} = message.member

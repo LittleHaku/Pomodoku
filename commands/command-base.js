@@ -47,7 +47,6 @@ const validatePermissions = (permission) => {
 module.exports = (client, commandOptions) => {
     let {
         commands,
-        alias = [],
         expectedArgs = '',
         permissionError = 'You do not have permission to run this command',
         minArgs = 0,
@@ -57,12 +56,13 @@ module.exports = (client, commandOptions) => {
         callback
     } = commandOptions;
 
-    // Ensure the aliases are in an array
-    if (typeof alais === 'string') {
-        alias = [alias]
+
+    // Ensure the commands are in an array
+    if (typeof commands === 'string') {
+        commands = [commands]
     }
 
-    console.log(`Registering command "${commands}"`)
+    console.log(`Registering command "${commands[0]}"`)
 
     // Ensure the permissions are in the array and are all valid
     if (permissions.length) {
@@ -77,89 +77,54 @@ module.exports = (client, commandOptions) => {
     client.on('message', async message => {
         const { member, content, guild } = message
 
+        const args = message.content.slice(prefix.length).trim().split(/ +/)
+        const command = args.shift().toLowerCase()
+
+        if (!message.content.startsWith(prefix) || message.author.bot) return;
+
         // To avoid errors during !p (!play) and !pause, we will make first check for full cmd and if nothing matches, aliases
-        if (content.toLowerCase().startsWith(`${prefix}${commands.toLowerCase()}`)) {
-            // A commands has been ran
-
-            // Ensure the user has the required permissions
-            for (const permission of permissions) {
-                if (!member.hasPermission(permission)) {
-                    message.reply(permissionError)
-                    return
-                }
-            }
-
-            // Ensure the user has the required roles
-            for (const requiredRole of requiredRoles) {
-                const role = guild.roles.cache.find(role => role.name === requiredRole)
-
-                if (!role || !member.roles.cache.has(role.id)) {
-                    message.reply(`You must have the "${requiredRole}" role to use this command`)
-                    return
-                }
-            }
-
-            // Split the command and the args
-            const arguments = content.split(/ +/)
-
-            // Remove the first slot of the array (which is the command and we want the args)
-            arguments.shift()
-
-            // Ensure we have the correct number of arguments
-            if (arguments.length < minArgs || (arguments.length > maxArgs && maxArgs !== null)) {
-                message.reply(`Incorrect syntax! Use ${prefix}${commands} ${expectedArgs}`)
-                return
-            }
-
-            // Handle the custom command code
-            callback(message, arguments, client)
-
-            return
-        }
-
-
-
-        //aliases check
-        for (const cmd of alias) { //Runs a command if executed
-            if (content.toLowerCase().startsWith(`${prefix}${cmd.toLowerCase()}`)) {
+        if (content.toLowerCase().startsWith(`${prefix}`)) {
+            //console.log('Hasta aqui1')
+            for (const cmd of commands) {
+                //console.log('hasta aqui2')
                 // A commands has been ran
+                if (command === cmd) {
+                    //console.log('hasta aqui3')
+                    // Ensure the user has the required permissions
+                    for (const permission of permissions) {
+                        if (!member.hasPermission(permission)) {
+                            message.reply(permissionError)
+                            return
+                        }
+                    }
 
-                // Ensure the user has the required permissions
-                for (const permission of permissions) {
-                    if (!member.hasPermission(permission)) {
-                        message.reply(permissionError)
+                    // Ensure the user has the required roles
+                    for (const requiredRole of requiredRoles) {
+                        const role = guild.roles.cache.find(role => role.name === requiredRole)
+
+                        if (!role || !member.roles.cache.has(role.id)) {
+                            message.reply(`You must have the "${requiredRole}" role to use this command`)
+                            return
+                        }
+                    }
+
+
+                    // Ensure we have the correct number of arguments
+                    if (args.length < minArgs || (args.length > maxArgs && maxArgs !== null)) {
+                        message.reply(`Incorrect syntax! Use ${prefix}${commands} ${expectedArgs}`)
                         return
                     }
-                }
 
-                // Ensure the user has the required roles
-                for (const requiredRole of requiredRoles) {
-                    const role = guild.roles.cache.find(role => role.name === requiredRole)
+                    // Handle the custom command code
+                    callback(message, args, client)
 
-                    if (!role || !member.roles.cache.has(role.id)) {
-                        message.reply(`You must have the "${requiredRole}" role to use this command`)
-                        return
-                    }
-                }
-
-                // Split the command and the args
-                const arguments = content.split(/ +/)
-
-                // Remove the first slot of the array (which is the command and we want the args)
-                arguments.shift()
-
-                // Ensure we have the correct number of arguments
-                if (arguments.length < minArgs || (arguments.length > maxArgs && maxArgs !== null)) {
-                    message.reply(`Incorrect syntax! Use ${prefix}${cmd} ${expectedArgs}`)
                     return
                 }
-
-                // Handle the custom command code
-                callback(message, arguments, client)
-
-                return
             }
+
+        }
+        else {
+            message.reply(`What did you say?`)
         }
     })
-
 }

@@ -2,8 +2,7 @@
 //const ytSearch = require('yt-search')
 
 module.exports = {
-    commands: 'play',
-    alias: 'p',
+    commands: ['play', 'p'],
     minArgs: 1,
     expectedArgs: ['<Song name>'],
     permissions: ['CONNECT', 'SPEAK'],

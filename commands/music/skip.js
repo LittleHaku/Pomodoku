@@ -1,6 +1,5 @@
 module.exports = {
-    commands: 'skip',
-    alias: 's',
+    commands: ['skip', 's'],
     async callback(message, arguments, client) {
         const queue = client.player.getQueue(message)
 
