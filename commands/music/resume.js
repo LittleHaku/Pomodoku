@@ -1,5 +1,6 @@
 module.exports = {
-    commands: ['resume', 'res'],
+    commands: 'resume',
+    alias: 'res',
     async callback(message, arguments, client) {
         const queue = client.player.getQueue(message)
 

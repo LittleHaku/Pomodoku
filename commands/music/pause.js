@@ -1,5 +1,5 @@
 module.exports = {
-    commands: ['pause'],
+    commands: 'pause',
     async callback(message, arguments, client) {
         const queue = client.player.getQueue(message)
 

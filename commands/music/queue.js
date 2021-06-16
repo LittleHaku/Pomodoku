@@ -2,7 +2,8 @@ Discord = require('discord.js')
 Pagination = require('discord-paginationembed');
 
 module.exports = {
-    commands: ['queue', 'q'],
+    commands: 'queue',
+    alias: 'q',
     async callback(message, arguments, client) {
 
         const queue = client.player.getQueue(message)

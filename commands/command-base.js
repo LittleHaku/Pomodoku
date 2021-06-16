@@ -34,19 +34,20 @@ const validatePermissions = (permission) => {
         'MANAGE_ROLES',
         'MANAGE_WEBHOOKS',
         'MANAGE_EMOJIS',
-      ]
+    ]
 
     // Checks the correcteness of the permissions
-      for (const permission of validPermissions) {
-          if (!validPermissions.includes(permission)) {
-              throw new Error(`Unknown permission node "${permission}`)
-          }
-      }
+    for (const permission of validPermissions) {
+        if (!validPermissions.includes(permission)) {
+            throw new Error(`Unknown permission node "${permission}`)
+        }
+    }
 }
 
 module.exports = (client, commandOptions) => {
     let {
         commands,
+        alias = [],
         expectedArgs = '',
         permissionError = 'You do not have permission to run this command',
         minArgs = 0,
@@ -56,16 +57,16 @@ module.exports = (client, commandOptions) => {
         callback
     } = commandOptions;
 
-    // Ensure the command and aliases are in an array
-    if (typeof commands === 'string'){
-        commands = [commands] 
+    // Ensure the aliases are in an array
+    if (typeof alais === 'string') {
+        alias = [alias]
     }
 
-    console.log(`Registering command "${commands[0]}"`)
+    console.log(`Registering command "${commands}"`)
 
     // Ensure the permissions are in the array and are all valid
     if (permissions.length) {
-        if (typeof permissions === 'string'){
+        if (typeof permissions === 'string') {
             permissions = [permissions]
         }
 
@@ -76,9 +77,51 @@ module.exports = (client, commandOptions) => {
     client.on('message', async message => {
         const { member, content, guild } = message
 
-        for (const alias of commands) { //Runs a command if executed
-            if (content.toLowerCase().startsWith(`${prefix}${alias.toLowerCase()}`))
-            {
+        // To avoid errors during !p (!play) and !pause, we will make first check for full cmd and if nothing matches, aliases
+        if (content.toLowerCase().startsWith(`${prefix}${commands.toLowerCase()}`)) {
+            // A commands has been ran
+
+            // Ensure the user has the required permissions
+            for (const permission of permissions) {
+                if (!member.hasPermission(permission)) {
+                    message.reply(permissionError)
+                    return
+                }
+            }
+
+            // Ensure the user has the required roles
+            for (const requiredRole of requiredRoles) {
+                const role = guild.roles.cache.find(role => role.name === requiredRole)
+
+                if (!role || !member.roles.cache.has(role.id)) {
+                    message.reply(`You must have the "${requiredRole}" role to use this command`)
+                    return
+                }
+            }
+
+            // Split the command and the args
+            const arguments = content.split(/ +/)
+
+            // Remove the first slot of the array (which is the command and we want the args)
+            arguments.shift()
+
+            // Ensure we have the correct number of arguments
+            if (arguments.length < minArgs || (arguments.length > maxArgs && maxArgs !== null)) {
+                message.reply(`Incorrect syntax! Use ${prefix}${commands} ${expectedArgs}`)
+                return
+            }
+
+            // Handle the custom command code
+            callback(message, arguments, client)
+
+            return
+        }
+
+
+
+        //aliases check
+        for (const cmd of alias) { //Runs a command if executed
+            if (content.toLowerCase().startsWith(`${prefix}${cmd.toLowerCase()}`)) {
                 // A commands has been ran
 
                 // Ensure the user has the required permissions
@@ -107,7 +150,7 @@ module.exports = (client, commandOptions) => {
 
                 // Ensure we have the correct number of arguments
                 if (arguments.length < minArgs || (arguments.length > maxArgs && maxArgs !== null)) {
-                    message.reply(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
+                    message.reply(`Incorrect syntax! Use ${prefix}${cmd} ${expectedArgs}`)
                     return
                 }
 

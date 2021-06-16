@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-    commands: ['start'],
+    commands: 'start',
     minArgs: 3,
     maxArgs: 3, //!start 25 5 4 (4 pomodoros of 25 mins study, 5 break)
     expectedArgs: ['<Study session length>', '<Brake length>', '<Number of pomodoros>'],

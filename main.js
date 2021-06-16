@@ -7,6 +7,7 @@ const config = require('./config.json');
 const dotenv = require('dotenv');
 
 const client = new Discord.Client();
+client.setMaxListeners(0);
 
 client.config = require('./config.json');
 client.dotenv = require('dotenv'); //Dont copy my token
