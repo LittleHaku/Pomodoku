@@ -31,6 +31,6 @@
     "soundcloud-scraper": "^5.0.0",
     "spotify-url-info": "^2.2.3",
     "youtube-sr": "^4.1.4",
-    "ytdl-core": "^4.8.2"
+    "ytdl-core": "^4.10.1"
   }
 }
