@@ -1,5 +1,6 @@
 # Pomodoku
+Bot para poner música en Discord
 to start: node main.js
-required node modules: npm install ytdlcore no se
+required node modules: npm install ytdlcore
 
-Para invitarle: https://discordpy.readthedocs.io/en/stable/discord.html
+Para invitarle seguir los pasos: https://discordpy.readthedocs.io/en/stable/discord.html
