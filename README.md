@@ -20,6 +20,10 @@ npm install ytdlcore
 
 ### Invite Instructions
 
+Use this link: https://discord.com/oauth2/authorize?client_id=849663278765310033&permissions=552175266896&scope=bot
+
+or...
+
 To invite Pomodoku to your Discord server, follow the steps outlined in the official Discord.py documentation: [Discord.py Documentation](https://discordpy.readthedocs.io/en/stable/discord.html)
 
 ### Music Commands
