@@ -15,7 +15,7 @@ node main.js
 Make sure to install the required Node.js modules using:
 
 ```
-npm install ytdlcore
+npm install ytdl-core
 ```
 
 ### Invite Instructions
